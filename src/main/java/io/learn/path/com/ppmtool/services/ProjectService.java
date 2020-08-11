@@ -10,7 +10,7 @@ public interface ProjectService {
 	
 	Iterable<Project> findAllProjects();
 	
-	String deleteProjectByIdentity(String projectIdentity);
+	Object deleteProjectByIdentity(String projectIdentity);
 	
 	
 }

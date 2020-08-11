@@ -7,6 +7,7 @@ import io.learn.path.com.ppmtool.constants.Constants;
 import io.learn.path.com.ppmtool.domain.Project;
 import io.learn.path.com.ppmtool.repositories.ProjectRepository;
 import io.learn.path.com.ppmtool.validation.exception.ProjectIdException;
+import io.learn.path.com.ppmtool.validation.exception.ProjectIdExceptionResponse;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -24,7 +25,7 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 			return projectRepository.save(project);
 		}catch(Exception e) {			
-			throw new ProjectIdException(Constants.PROJECT_ID + project.getProjectIdentifier() + Constants.ALREADY_EXISTS);
+			throw new ProjectIdException(Constants.PROJECT_IDENTITY + project.getProjectIdentifier() + Constants.ALREADY_EXISTS);
 		}
 
 	}
@@ -42,16 +43,18 @@ public class ProjectServiceImpl implements ProjectService {
 	
 
 	@Override
-	public String deleteProjectByIdentity(String projectIdentity) {		
+	public Object deleteProjectByIdentity(String projectIdentity) {		
 		projectRepository.delete(validateProjectByIdentity(projectIdentity));
-		return Constants.PROJECT_ID + projectIdentity + Constants.PROJECT_DELETED;
+		ProjectIdExceptionResponse successResponse = new ProjectIdExceptionResponse(
+				Constants.PROJECT_IDENTITY + projectIdentity + Constants.PROJECT_DELETED);
+		return successResponse;
 	}
 
 
 	private Project validateProjectByIdentity(String projectIdentity) {
 		Project project = projectRepository.findByProjectIdentifier(projectIdentity);
 		if(null == project) {
-			throw new ProjectIdException(Constants.PROJECT_ID + projectIdentity + Constants.NOT_FOUND);
+			throw new ProjectIdException(Constants.PROJECT_IDENTITY + projectIdentity + Constants.NOT_FOUND);
 		}
 		return project;
 	}

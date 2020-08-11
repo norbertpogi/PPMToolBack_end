@@ -21,7 +21,7 @@ import io.learn.path.com.ppmtool.validation.exception.ValidationError;
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
-	
+
 	ProjectService projectService;
 	ValidationError validationError;
 
@@ -40,7 +40,7 @@ public class ProjectController {
 	
 	@GetMapping("/{projectIdentity}")
 	public ResponseEntity<?> getProjectByIdentity(@PathVariable String projectIdentity) {
-		return new ResponseEntity<Project>(projectService.findProjectByIdentity(projectIdentity.toUpperCase()), 
+		return new ResponseEntity<Object>(projectService.findProjectByIdentity(projectIdentity.toUpperCase()), 
 				HttpStatus.OK);
 	}
 	
@@ -50,9 +50,9 @@ public class ProjectController {
 	}
 	
 	@DeleteMapping("/{projectIdentity}")
-	public ResponseEntity<?> deleteProjectByIdentity(@PathVariable String projectIdentity) {
-		String sucess = projectService.deleteProjectByIdentity(projectIdentity);		
-		return new ResponseEntity<String>(sucess, HttpStatus.OK);
+	public ResponseEntity<?> deleteProjectByIdentity(@PathVariable String projectIdentity) {		
+		Object project = projectService.deleteProjectByIdentity(projectIdentity);
+		return new ResponseEntity<Object>(project, HttpStatus.OK);
 	}
 	
 	
